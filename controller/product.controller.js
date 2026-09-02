@@ -1,6 +1,6 @@
 const Product = require("../model/product.model");
 
-// CREATE PRODUCT
+
 exports.createProduct = async (req, res, next) => {
   try {
     const product = await Product.create(req.body);
@@ -14,7 +14,6 @@ exports.createProduct = async (req, res, next) => {
   }
 };
 
-// GET ALL PRODUCTS + SEARCH
 exports.getProducts = async (req, res, next) => {
   try {
     const { search, category } = req.query;
@@ -44,7 +43,7 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
-// GET ONE PRODUCT
+
 exports.getProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -65,7 +64,7 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-// UPDATE PRODUCT
+
 exports.updateProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndUpdate(
@@ -93,7 +92,6 @@ exports.updateProduct = async (req, res, next) => {
   }
 };
 
-// DELETE PRODUCT
 exports.deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
