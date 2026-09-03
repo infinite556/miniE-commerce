@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AdminProductsComponent } from './pages/admin-products/admin-products.component';
+import { authGuard } from './core/guards/auth/auth-guard'; 
 
 export const routes: Routes = [
   {
@@ -9,10 +10,12 @@ export const routes: Routes = [
   },
   {
     path: 'admin/products',
-    component: AdminProductsComponent
+    component: AdminProductsComponent,
+    canActivate: [authGuard] 
   },
+
   {
     path: '**',
     redirectTo: 'admin/products'
   }
-];
+]
