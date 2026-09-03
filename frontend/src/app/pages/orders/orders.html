@@ -1,16 +1,34 @@
-<div class="container" style="padding: 20px;">
-  <h2>My Orders</h2>
-  <button (click)="placeOrder()" style="padding: 8px 16px; margin-bottom: 20px; cursor: pointer;">
-    Create Test Order
-  </button>
+<div class="orders-container">
+  <div class="header-section">
+    <h2>My Orders</h2>
+    <button class="btn-primary" (click)="placeOrder()">
+      + Create Test Order
+    </button>
+  </div>
 
-  <div *ngIf="orders.length === 0">No orders found.</div>
+  <div *ngIf="orders.length === 0" class="empty-state">
+    <p>No orders found yet.</p>
+  </div>
 
-  <ul *ngIf="orders.length > 0">
-    <li *ngFor="let order of orders" style="margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
-      <strong>Order ID:</strong> {{ order._id }} | 
-      <strong>Total:</strong> ${{ order.totalAmount }} | 
-      <strong>Status:</strong> {{ order.status || 'Pending' }}
-    </li>
-  </ul>
+  <div class="orders-grid" *ngIf="orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <span class="order-id">Order ID: {{ order._id }}</span>
+        <span class="status-badge">{{ order.status }}</span>
+      </div>
+
+      <div class="order-body">
+        <p class="total-amount">Total: ${{ order.totalAmount }}</p>
+        
+        <div class="items-list">
+          <h4>Items:</h4>
+          <ul>
+            <li *ngFor="let item of order.items">
+              Product ID: {{ item.productId?._id || item.productId }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

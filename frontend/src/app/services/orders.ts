@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class OrdersService {
   private apiUrl = 'http://localhost:5000/api/orders';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createOrder(orderData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}`, orderData);
