@@ -1,0 +1,194 @@
+<div class="admin-page">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">MINI E-COMMERCE</p>
+      <h1>Admin Products</h1>
+      <p class="subtitle">Manage your store products from one place.</p>
+    </div>
+
+    <button class="primary-btn" type="button" (click)="startCreate()">
+      + Add Product
+    </button>
+  </header>
+
+  <main class="content">
+    <section class="panel form-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>{{ editingId ? 'Edit Product' : 'Add New Product' }}</h2>
+          <p>
+            {{ editingId
+              ? 'Update the selected product.'
+              : 'Create a new product for the store.' }}
+          </p>
+        </div>
+
+        @if (editingId) {
+          <button class="secondary-btn" type="button" (click)="cancelEdit()">
+            Cancel
+          </button>
+        }
+      </div>
+
+      <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+        <div class="form-grid">
+          <label>
+            Product Name
+            <input type="text" formControlName="name" placeholder="e.g. Wireless Headphones">
+            @if (fieldInvalid('name')) {
+              <small>Product name is required and must be at least 2 characters.</small>
+            }
+          </label>
+
+          <label>
+            Category
+            <input type="text" formControlName="category" placeholder="e.g. Electronics">
+            @if (fieldInvalid('category')) {
+              <small>Category is required.</small>
+            }
+          </label>
+
+          <label>
+            Price
+            <input type="number" min="0" formControlName="price">
+            @if (fieldInvalid('price')) {
+              <small>Price must be 0 or greater.</small>
+            }
+          </label>
+
+          <label>
+            Stock
+            <input type="number" min="0" formControlName="stock">
+            @if (fieldInvalid('stock')) {
+              <small>Stock must be 0 or greater.</small>
+            }
+          </label>
+
+          <label class="full">
+            Image URL
+            <input type="url" formControlName="image" placeholder="https://...">
+          </label>
+
+          <label class="full">
+            Description
+            <textarea rows="4" formControlName="description"
+              placeholder="Describe the product..."></textarea>
+            @if (fieldInvalid('description')) {
+              <small>Description is required.</small>
+            }
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="primary-btn" type="submit" [disabled]="saving">
+            {{ saving ? 'Saving...' : (editingId ? 'Update Product' : 'Create Product') }}
+          </button>
+
+          <button class="secondary-btn" type="button" (click)="startCreate()">
+            Clear
+          </button>
+        </div>
+      </form>
+    </section>
+
+    @if (successMessage) {
+      <div class="alert success">{{ successMessage }}</div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert error">{{ errorMessage }}</div>
+    }
+
+    <section class="panel">
+      <div class="panel-heading products-heading">
+        <div>
+          <h2>Products</h2>
+          <p>{{ products.length }} product(s) found.</p>
+        </div>
+
+        <div class="search-box">
+          <input
+            type="search"
+            [(ngModel)]="searchTerm"
+            [ngModelOptions]="{standalone: true}"
+            (keyup.enter)="search()"
+            placeholder="Search products..."
+          >
+          <button class="secondary-btn" type="button" (click)="search()">Search</button>
+          <button class="icon-btn" type="button" (click)="resetSearch()" title="Clear search">×</button>
+        </div>
+      </div>
+
+      @if (loading) {
+        <div class="state">Loading products...</div>
+      } @else if (products.length === 0) {
+        <div class="state empty">
+          <div class="empty-icon">📦</div>
+          <h3>No products found</h3>
+          <p>Add your first product using the form above.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (product of products; track product._id) {
+                <tr>
+                  <td>
+                    <div class="product-cell">
+                      @if (product.image) {
+                        <img [src]="product.image" [alt]="product.name">
+                      } @else {
+                        <div class="placeholder-image">📦</div>
+                      }
+
+                      <div>
+                        <strong>{{ product.name }}</strong>
+                        <span>{{ product.description }}</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span class="badge">{{ product.category }}</span>
+                  </td>
+
+                  <td class="price">{{ product.price | number:'1.2-2' }}</td>
+
+                  <td>
+                    <span
+                      class="stock"
+                      [class.low]="product.stock <= 5"
+                      [class.out]="product.stock === 0">
+                      {{ product.stock }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="actions">
+                      <button class="edit-btn" type="button" (click)="startEdit(product)">
+                        Edit
+                      </button>
+                      <button class="delete-btn" type="button" (click)="deleteProduct(product)">
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </main>
+</div>
