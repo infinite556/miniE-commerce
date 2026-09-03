@@ -9,8 +9,6 @@ exports.vaildtoken = async (req, res, next) => {
       msg: "token not found please login",
     });
   }
-
-  // Handle standard "Bearer <token>" prefix if present
   if (token.startsWith("Bearer ")) {
     token = token.split(" ")[1];
   }
