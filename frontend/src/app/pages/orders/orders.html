@@ -1,0 +1,16 @@
+<div class="container" style="padding: 20px;">
+  <h2>My Orders</h2>
+  <button (click)="placeOrder()" style="padding: 8px 16px; margin-bottom: 20px; cursor: pointer;">
+    Create Test Order
+  </button>
+
+  <div *ngIf="orders.length === 0">No orders found.</div>
+
+  <ul *ngIf="orders.length > 0">
+    <li *ngFor="let order of orders" style="margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
+      <strong>Order ID:</strong> {{ order._id }} | 
+      <strong>Total:</strong> ${{ order.totalAmount }} | 
+      <strong>Status:</strong> {{ order.status || 'Pending' }}
+    </li>
+  </ul>
+</div>
