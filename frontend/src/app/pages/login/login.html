@@ -1,0 +1,30 @@
+<form [formGroup]="loginform" (ngSubmit)="login()" novalidate>
+  <div class="form-header">
+    <h2>Welcome back</h2>
+    <p>Sign in to continue</p>
+  </div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+    <div
+      class="error-text"
+      *ngIf="loginform.get('email')?.invalid && loginform.get('email')?.touched"
+    >
+      Enter a valid email.
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" placeholder="••••••••" />
+    <div
+      class="error-text"
+      *ngIf="loginform.get('password')?.invalid && loginform.get('password')?.touched"
+    >
+      Password is required.
+    </div>
+  </div>
+
+  <button class="submit-btn" type="submit" [disabled]="loginform.invalid">Login</button>
+</form>

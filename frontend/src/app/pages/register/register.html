@@ -1,0 +1,68 @@
+<form [formGroup]="registerform" (ngSubmit)="register()" novalidate>
+  <div class="form-header">
+    <h2>Create account</h2>
+    <p>Join Social Media today</p>
+  </div>
+
+  <div class="field">
+    <label for="name">Full name</label>
+    <input id="name" type="text" formControlName="name" placeholder="Your name" />
+    <div
+      class="error-text"
+      *ngIf="registerform.get('name')?.invalid && registerform.get('name')?.touched"
+    >
+      Name must be at least 4 characters.
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+    <div
+      class="error-text"
+      *ngIf="registerform.get('email')?.invalid && registerform.get('email')?.touched"
+    >
+      Enter a valid email.
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" placeholder="••••••••" />
+    <div
+      class="error-text"
+      *ngIf="registerform.get('password')?.invalid && registerform.get('password')?.touched"
+    >
+      Password must be at least 4 characters.
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="imgurl">Profile image URL</label>
+    <input
+      id="imgurl"
+      type="text"
+      formControlName="imgurl"
+      placeholder="https://example.com/avatar.jpg"
+    />
+    <div
+      class="error-text"
+      *ngIf="registerform.get('imgurl')?.invalid && registerform.get('imgurl')?.touched"
+    >
+      Image URL is required.
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="id">User ID</label>
+    <input id="id" type="number" formControlName="id" placeholder="1" />
+    <div
+      class="error-text"
+      *ngIf="registerform.get('id')?.invalid && registerform.get('id')?.touched"
+    >
+      ID must be greater than 0.
+    </div>
+  </div>
+
+  <button class="submit-btn" type="submit" [disabled]="registerform.invalid">Register</button>
+</form>
